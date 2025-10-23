@@ -7,10 +7,10 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
-// Add these imports (they should be generated from your XSD)
-// import org.example.webservice.soap.GetStudentRequest;
-// import org.example.webservice.soap.GetStudentResponse;
-// import org.example.webservice.soap.StudentType;
+// These imports must match the package used by the generated JAXB classes
+import org.example.webservice.soap.GetStudentRequest;
+import org.example.webservice.soap.GetStudentResponse;
+import org.example.webservice.soap.StudentType;
 
 @Endpoint
 public class StudentEndpoint {
@@ -23,7 +23,8 @@ public class StudentEndpoint {
         this.studentService = studentService;
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getStudentRequest")
+    // NOTE: localPart must match the element name in students.xsd exactly (case-sensitive).
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetStudentRequest")
     @ResponsePayload
     public GetStudentResponse getStudent(@RequestPayload GetStudentRequest request) {
         GetStudentResponse response = new GetStudentResponse();
@@ -36,8 +37,7 @@ public class StudentEndpoint {
             studentType.setDepartment(s.getDepartment());
             response.setStudent(studentType);
         } else {
-            // Handle case when student is not found
-            // You might want to throw a SOAP fault or return an empty response
+            // If no student found you can return an empty response or throw a SoapFault.
             response.setStudent(null);
         }
 

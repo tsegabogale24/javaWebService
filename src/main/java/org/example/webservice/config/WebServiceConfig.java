@@ -9,6 +9,7 @@ import org.springframework.ws.transport.http.MessageDispatcherServlet;
 import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.xml.xsd.XsdSchema;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 @EnableWs
 @Configuration
@@ -35,5 +36,15 @@ public class WebServiceConfig {
         definition.setTargetNamespace("http://example.org/webservice/students");
         definition.setSchema(studentsSchema);
         return definition;
+    }
+
+    // Add a Jaxb2Marshaller so Spring-WS knows how to (un)marshal request/response objects.
+    // The contextPath MUST match the package name where the JAXB-generated classes are placed.
+    @Bean
+    public Jaxb2Marshaller marshaller() {
+        Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+        // This must match the package for the generated JAXB classes (see plugin below)
+        marshaller.setContextPath("org.example.webservice.soap");
+        return marshaller;
     }
 }
