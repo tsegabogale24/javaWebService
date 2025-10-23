@@ -3,163 +3,138 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                              https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.example</groupId>
-  <artifactId>JavaWebService</artifactId>
-  <version>1.0.0</version>
-  <packaging>jar</packaging>
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.3.3</version>
-    <relativePath/>
-  </parent>
+    <groupId>org.example</groupId>
+    <artifactId>JavaWebService</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
 
-  <properties>
-    <java.version>17</java.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-
-  <dependencies>
-    <!-- REST support -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-
-    <!-- SOAP / Spring Web Services -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web-services</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.glassfish.jaxb</groupId>
-      <artifactId>jaxb-runtime</artifactId>
-      <version>3.0.2</version>
-    </dependency>
-
-    <dependency>
-      <groupId>wsdl4j</groupId>
-      <artifactId>wsdl4j</artifactId>
-      <version>1.6.3</version>
-    </dependency>
-
-    <!-- JAXB (for XML marshalling/unmarshalling) -->
-    <dependency>
-      <groupId>jakarta.xml.bind</groupId>
-      <artifactId>jakarta.xml.bind-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.jaxb</groupId>
-      <artifactId>jaxb-runtime</artifactId>
-    </dependency>
-
-    <!-- Optional: validation for XSD-based classes -->
-    <dependency>
-      <groupId>jakarta.validation</groupId>
-      <artifactId>jakarta.validation-api</artifactId>
-    </dependency>
-  </dependencies>
-
-  <build>
-    <plugins>
-
-      <!-- Spring Boot Plugin -->
-      <plugin>
+    <parent>
         <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.3.3</version>
+        <relativePath/>
+    </parent>
 
-      <!-- JAXB2 Plugin for generating Java classes from XSD -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>jaxb2-maven-plugin</artifactId>
-        <version>3.1.0</version>
-        <executions>
-          <execution>
-            <id>generate-jaxb</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>xjc</goal>
-            </goals>
-            <configuration>
-              <schemaDirectory>${project.basedir}/src/main/resources</schemaDirectory>
-              <schemaIncludes>
-                <include>students.xsd</include>
-              </schemaIncludes>
-              <outputDirectory>${project.build.directory}/generated-sources/jaxb</outputDirectory>
-              <packageName>org.example.webservice.soap</packageName>
-              <clearOutputDir>false</clearOutputDir>
-              <verbose>true</verbose>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
+    <properties>
+        <java.version>21</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <generated.sources.dir>${project.build.directory}/generated-sources/jaxb</generated.sources.dir>
+    </properties>
 
-    </plugins>
+    <dependencies>
+        <!-- REST support -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
 
-    <!-- Include generated JAXB sources in compilation -->
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.10.1</version>
-          <configuration>
-            <source>${java.version}</source>
-            <target>${java.version}</target>
-            <encoding>UTF-8</encoding>
-            <generatedSourcesDirectory>${project.build.directory}/generated-sources/jaxb</generatedSourcesDirectory>
-          </configuration>
-        </plugin>
+        <!-- SOAP / Spring Web Services -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web-services</artifactId>
+        </dependency>
 
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>jaxb2-maven-plugin</artifactId>
-          <version>2.5.0</version>
-          <executions>
-            <execution>
-              <id>xjc</id>
-              <goals>
-                <goal>xjc</goal>
-              </goals>
-              <phase>generate-sources</phase>
-              <configuration>
-                <schemaDirectory>${basedir}/src/main/resources</schemaDirectory>
-                <schemas>
-                  <schema>students.xsd</schema>
-                </schemas>
-                <packageName>org.example.webservice.soap</packageName>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
+        <!-- Use Glassfish JAXB runtime (stable, available on Maven Central) -->
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>3.0.2</version>
+        </dependency>
 
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>jaxb2-maven-plugin</artifactId>
-          <version>2.5.0</version>
-          <executions>
-            <execution>
-              <id>xjc</id>
-              <goals>
-                <goal>xjc</goal>
-              </goals>
-              <phase>generate-sources</phase>
-              <configuration>
-                <schemaDirectory>${basedir}/src/main/resources</schemaDirectory>
-                <schemas>
-                  <schema>students.xsd</schema>
-                </schemas>
-                <packageName>org.example.webservice.soap</packageName>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
+        <!-- Optional: Bean validation for generated classes -->
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+        </dependency>
+
+        <!-- WSDL tools -->
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+            <version>1.6.3</version>
+        </dependency>
+
+        <!-- JUnit Jupiter for test compilation (test scope) -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <!-- Spring Boot Plugin -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- Compiler plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <release>${java.version}</release>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+            <!-- JAXB2 plugin (explicitly point to src/main/resources/students.xsd) -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-jaxb</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <!-- directory that contains students.xsd -->
+                            <schemaDirectory>${project.basedir}/src/main/resources</schemaDirectory>
+                            <schemaIncludes>
+                                <include>students.xsd</include>
+                            </schemaIncludes>
+                            <outputDirectory>${generated.sources.dir}</outputDirectory>
+                            <packageName>org.example.webservice.soap</packageName>
+                            <clearOutputDir>true</clearOutputDir>
+                            <!-- Use Jakarta annotations and avoid generating package-info.jaxb -->
+                            <arguments>
+                                <argument>-npa</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Add generated sources to compile path -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.4.0</version>
+                <executions>
+                    <execution>
+                        <id>add-generated-sources</id>
+                        <phase>generate-sources</phase>
+                        <goals><goal>add-source</goal></goals>
+                        <configuration>
+                            <sources>
+                                <source>${generated.sources.dir}</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
 </project>

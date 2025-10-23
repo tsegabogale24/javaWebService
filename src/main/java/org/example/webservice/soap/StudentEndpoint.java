@@ -8,9 +8,7 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 // These imports must match the package used by the generated JAXB classes
-import org.example.webservice.soap.GetStudentRequest;
-import org.example.webservice.soap.GetStudentResponse;
-import org.example.webservice.soap.StudentType;
+
 
 @Endpoint
 public class StudentEndpoint {

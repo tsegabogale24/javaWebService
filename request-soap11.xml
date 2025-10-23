@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:stu="http://example.org/webservice/students">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <stu:GetStudentRequest>
+            <stu:id>1</stu:id>
+        </stu:GetStudentRequest>
+    </soapenv:Body>
+</soapenv:Envelope>
