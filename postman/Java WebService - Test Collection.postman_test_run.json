@@ -1,0 +1,331 @@
+{
+	"id": "1e1557d4-2c23-4d94-ab7d-4277df3d3520",
+	"name": "Java WebService - Refined Test Collection",
+	"timestamp": "2025-10-25T16:51:23.331Z",
+	"collection_id": "49283566-f2bed501-b3bf-4907-ab7a-cee497af7098",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 12,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2025-10-25T16:51:22.660Z",
+	"totalFail": 2,
+	"results": [
+		{
+			"id": "a59e1934-91ba-4c40-9559-f465f673f459",
+			"name": "REST - List Students (GET)",
+			"url": "http://localhost:8080/api/students",
+			"time": 8,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status is 200": true,
+				"Content-Type is JSON": true,
+				"Response is array and has student objects": true
+			},
+			"testPassFailCounts": {
+				"Status is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Content-Type is JSON": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response is array and has student objects": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"Status is 200": true,
+					"Content-Type is JSON": true,
+					"Response is array and has student objects": true
+				}
+			]
+		},
+		{
+			"id": "72b410a3-cd7d-48e6-8e97-2e2ccc0d8b7f",
+			"name": "REST - Get Student by ID (GET)",
+			"url": "http://localhost:8080/api/students/0",
+			"time": 3,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200 or 404/405 tolerated": true,
+				"Has id and fields": true
+			},
+			"testPassFailCounts": {
+				"Status 200 or 404/405 tolerated": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Has id and fields": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status 200 or 404/405 tolerated": true,
+					"Has id and fields": true
+				}
+			]
+		},
+		{
+			"id": "72ca7cc1-3ad1-462a-96fd-964854e14f06",
+			"name": "REST - Create Student (POST)",
+			"url": "http://localhost:8080/api/students",
+			"time": 4,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Allow 201 Created or 200 OK or 405/404 if not implemented": true
+			},
+			"testPassFailCounts": {
+				"Allow 201 Created or 200 OK or 405/404 if not implemented": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Allow 201 Created or 200 OK or 405/404 if not implemented": true
+				}
+			]
+		},
+		{
+			"id": "a8f850ac-74ec-4931-86cd-c3b019adb52b",
+			"name": "REST - Replace Student (PUT)",
+			"url": "http://localhost:8080/api/students/0",
+			"time": 4,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"PUT returns 200/204 when supported or 404/405 tolerated": true
+			},
+			"testPassFailCounts": {
+				"PUT returns 200/204 when supported or 404/405 tolerated": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"PUT returns 200/204 when supported or 404/405 tolerated": true
+				}
+			]
+		},
+		{
+			"id": "0d1cc9ba-7223-47ff-86a4-f149fb85df14",
+			"name": "REST - Partial Update Student (PATCH)",
+			"url": "http://localhost:8080/api/students/0",
+			"time": 5,
+			"responseCode": {
+				"code": 405,
+				"name": "Method Not Allowed"
+			},
+			"tests": {
+				"PATCH returns 200/204 when supported or 404/405 tolerated": true
+			},
+			"testPassFailCounts": {
+				"PATCH returns 200/204 when supported or 404/405 tolerated": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"PATCH returns 200/204 when supported or 404/405 tolerated": true
+				}
+			]
+		},
+		{
+			"id": "0b255b43-f9ca-42df-b01f-903a71065f8e",
+			"name": "REST - Delete Student (DELETE)",
+			"url": "http://localhost:8080/api/students/0",
+			"time": 3,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"DELETE returns 200/204 for success or 404/405 tolerated": true
+			},
+			"testPassFailCounts": {
+				"DELETE returns 200/204 for success or 404/405 tolerated": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"DELETE returns 200/204 for success or 404/405 tolerated": true
+				}
+			]
+		},
+		{
+			"id": "a77afb8e-d1b3-477f-aed9-95c56d124082",
+			"name": "SOAP - GetStudentRequest (POST)",
+			"url": "http://localhost:8080/ws",
+			"time": 7,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"SOAP status 200": true,
+				"SOAP response contains GetStudentResponse and id (namespace tolerant)": true
+			},
+			"testPassFailCounts": {
+				"SOAP status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"SOAP response contains GetStudentResponse and id (namespace tolerant)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"SOAP status 200": true,
+					"SOAP response contains GetStudentResponse and id (namespace tolerant)": true
+				}
+			]
+		},
+		{
+			"id": "0673a2ca-bee7-43f4-a27e-f7b338e5fb94",
+			"name": "SOAP - WSDL GET",
+			"url": "http://localhost:8080/ws/students.wsdl",
+			"time": 18,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"WSDL reachable": true,
+				"WSDL contains definitions": false
+			},
+			"testPassFailCounts": {
+				"WSDL reachable": {
+					"pass": 1,
+					"fail": 0
+				},
+				"WSDL contains definitions": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				18
+			],
+			"allTests": [
+				{
+					"WSDL reachable": true,
+					"WSDL contains definitions": false
+				}
+			]
+		},
+		{
+			"id": "bec5809f-0407-47c1-93b7-db0bcf390084",
+			"name": "SOAP - Invalid Request (expect Fault or 400/500)",
+			"url": "http://localhost:8080/ws",
+			"time": 11,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Invalid SOAP returns fault OR HTTP 400/500/200 (with fault in body)": false
+			},
+			"testPassFailCounts": {
+				"Invalid SOAP returns fault OR HTTP 400/500/200 (with fault in body)": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"Invalid SOAP returns fault OR HTTP 400/500/200 (with fault in body)": false
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 63,
+	"collection": {
+		"requests": [
+			{
+				"id": "a59e1934-91ba-4c40-9559-f465f673f459",
+				"method": "GET"
+			},
+			{
+				"id": "72b410a3-cd7d-48e6-8e97-2e2ccc0d8b7f",
+				"method": "GET"
+			},
+			{
+				"id": "72ca7cc1-3ad1-462a-96fd-964854e14f06",
+				"method": "POST"
+			},
+			{
+				"id": "a8f850ac-74ec-4931-86cd-c3b019adb52b",
+				"method": "PUT"
+			},
+			{
+				"id": "0d1cc9ba-7223-47ff-86a4-f149fb85df14",
+				"method": "PATCH"
+			},
+			{
+				"id": "0b255b43-f9ca-42df-b01f-903a71065f8e",
+				"method": "DELETE"
+			},
+			{
+				"id": "a77afb8e-d1b3-477f-aed9-95c56d124082",
+				"method": "POST"
+			},
+			{
+				"id": "0673a2ca-bee7-43f4-a27e-f7b338e5fb94",
+				"method": "GET"
+			},
+			{
+				"id": "bec5809f-0407-47c1-93b7-db0bcf390084",
+				"method": "POST"
+			}
+		]
+	}
+}

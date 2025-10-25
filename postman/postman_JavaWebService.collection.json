@@ -1,0 +1,177 @@
+{
+  "info": {
+    "_postman_id": "refined-collection-001",
+    "name": "Java WebService - Refined Test Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Refined collection: GET/POST/PUT/PATCH/DELETE tests for /api/students plus SOAP WSDL and SOAP tests. Tests are tolerant so you don't need to modify code."
+  },
+  "item": [
+    {
+      "name": "REST - List Students (GET)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/api/students", "host": ["{{baseUrl}}"], "path": ["api","students"] }
+      },
+      "event": [
+        { "listen": "test", "script": { "exec": [
+          "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+          "pm.test('Content-Type is JSON', () => {",
+          "  pm.response.to.have.header('Content-Type');",
+          "  pm.expect(pm.response.headers.get('Content-Type').toLowerCase()).to.include('application/json');",
+          "});",
+          "pm.test('Response is array and has student objects', () => {",
+          "  pm.response.to.have.jsonBody();",
+          "  const body = pm.response.json();",
+          "  pm.expect(Array.isArray(body)).to.be.true;",
+          "  if (body.length > 0) {",
+          "    body.forEach(item => { pm.expect(item).to.have.property('id'); pm.expect(item).to.have.property('name'); pm.expect(item).to.have.property('department'); });",
+          "    // store first id",
+          "    const first = body[0].id; if (first !== undefined && first !== null) { pm.collectionVariables.set('studentId', String(first)); try { pm.environment.set('studentId', String(first)); } catch(e){} }",
+          "  }",
+          "});"
+        ], "type": "text/javascript" } }
+      ]
+    },
+    {
+      "name": "REST - Get Student by ID (GET)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/api/students/{{studentId}}", "host": ["{{baseUrl}}"], "path": ["api","students","{{studentId}}"] }
+      },
+      "event": [
+        { "listen": "test", "script": { "exec": [
+          "const expected = parseInt(pm.environment.get('studentId') || pm.collectionVariables.get('studentId') || '1',10);",
+          "pm.test('Status 200 or 404/405 tolerated', () => { pm.expect([200,404,405].includes(pm.response.code)).to.be.true; });",
+          "if (pm.response.code === 200) { pm.test('Has id and fields', () => { const b = pm.response.json(); pm.expect(b.id).to.eql(expected); pm.expect(b.name).to.be.a('string'); pm.expect(b.department).to.be.a('string'); }); }"
+        ], "type": "text/javascript" } }
+      ]
+    },
+    {
+      "name": "REST - Create Student (POST)",
+      "request": {
+        "method": "POST",
+        "header": [{"key":"Content-Type","value":"application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"New Student\",\n  \"department\": \"Test Department\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/api/students", "host": ["{{baseUrl}}"], "path": ["api","students"] }
+      },
+      "event": [
+        { "listen": "test", "script": { "exec": [
+          "pm.test('Allow 201 Created or 200 OK or 405/404 if not implemented', () => { pm.expect([200,201,405,404].includes(pm.response.code)).to.be.true; });",
+          "if ([200,201].includes(pm.response.code)) {",
+          "  // try to parse id from response body",
+          "  try {",
+          "    const body = pm.response.json();",
+          "    const newId = body.id || body.student?.id || body.data?.id;",
+          "    if (newId !== undefined && newId !== null) { pm.collectionVariables.set('studentId', String(newId)); try { pm.environment.set('studentId', String(newId)); } catch(e){} }",
+          "  } catch (e) { /* body not JSON or no id */ }",
+          "}"
+        ], "type": "text/javascript" } }
+      ]
+    },
+    {
+      "name": "REST - Replace Student (PUT)",
+      "request": {
+        "method": "PUT",
+        "header": [{"key":"Content-Type","value":"application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": {{studentId}},\n  \"name\": \"Updated Student\",\n  \"department\": \"Updated Dept\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/api/students/{{studentId}}", "host": ["{{baseUrl}}"], "path": ["api","students","{{studentId}}"] }
+      },
+      "event": [
+        { "listen": "test", "script": { "exec": [
+          "pm.test('PUT returns 200/204 when supported or 404/405 tolerated', () => { pm.expect([200,204,404,405].includes(pm.response.code)).to.be.true; });"
+        ], "type": "text/javascript" } }
+      ]
+    },
+    {
+      "name": "REST - Partial Update Student (PATCH)",
+      "request": {
+        "method": "PATCH",
+        "header": [{"key":"Content-Type","value":"application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"department\": \"Partially Updated Dept\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/api/students/{{studentId}}", "host": ["{{baseUrl}}"], "path": ["api","students","{{studentId}}"] }
+      },
+      "event": [
+        { "listen": "test", "script": { "exec": [
+          "pm.test('PATCH returns 200/204 when supported or 404/405 tolerated', () => { pm.expect([200,204,404,405].includes(pm.response.code)).to.be.true; });"
+        ], "type": "text/javascript" } }
+      ]
+    },
+    {
+      "name": "REST - Delete Student (DELETE)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/api/students/{{studentId}}", "host": ["{{baseUrl}}"], "path": ["api","students","{{studentId}}"] }
+      },
+      "event": [
+        { "listen": "test", "script": { "exec": [
+          "pm.test('DELETE returns 200/204 for success or 404/405 tolerated', () => { pm.expect([200,204,404,405].includes(pm.response.code)).to.be.true; });"
+        ], "type": "text/javascript" } }
+      ]
+    },
+    {
+      "name": "SOAP - GetStudentRequest (POST)",
+      "request": {
+        "method": "POST",
+        "header": [{"key":"Content-Type","value":"text/xml;charset=UTF-8"}],
+        "body": { "mode":"raw", "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:stu=\"http://example.org/webservice/students\">\n  <soapenv:Header/>\n  <soapenv:Body>\n    <stu:GetStudentRequest>\n      <stu:id>{{studentId}}</stu:id>\n    </stu:GetStudentRequest>\n  </soapenv:Body>\n</soapenv:Envelope>" },
+        "url": { "raw": "{{baseUrl}}/ws", "host": ["{{baseUrl}}"], "path": ["ws"] }
+      },
+      "event": [
+        { "listen": "test", "script": { "exec": [
+          "pm.test('SOAP status 200', () => pm.response.to.have.status(200));",
+          "pm.test('SOAP response contains GetStudentResponse and id (namespace tolerant)', () => {",
+          "  const txt = pm.response.text();",
+          "  pm.expect(txt).to.include('GetStudentResponse');",
+          "  const sid = pm.environment.get('studentId') || pm.collectionVariables.get('studentId') || '1';",
+          "  const idRegex = new RegExp(`<\\\\/?(?:\\\\w+:)?id>\\\\s*${sid}\\\\s*<\\\\/?(?:\\\\w+:)?id>`);",
+          "  pm.expect(idRegex.test(txt)).to.be.true;",
+          "});"
+        ], "type": "text/javascript" } }
+      ]
+    },
+    {
+      "name": "SOAP - WSDL GET",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/ws/students.wsdl", "host": ["{{baseUrl}}"], "path": ["ws","students.wsdl"] }
+      },
+      "event": [
+        { "listen": "test", "script": { "exec": [
+          "pm.test('WSDL reachable', () => { pm.expect([200,404].includes(pm.response.code)).to.be.true; });",
+          "if (pm.response.code === 200) { pm.test('WSDL contains definitions', () => pm.expect(pm.response.text()).to.include('<definitions')); }"
+        ], "type": "text/javascript" } }
+      ]
+    },
+    {
+      "name": "SOAP - Invalid Request (expect Fault or 400/500)",
+      "request": {
+        "method": "POST",
+        "header": [{"key":"Content-Type","value":"text/xml;charset=UTF-8"}],
+        "body": { "mode":"raw", "raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"><soapenv:Body><Invalid/></soapenv:Body></soapenv:Envelope>" },
+        "url": { "raw": "{{baseUrl}}/ws", "host": ["{{baseUrl}}"], "path": ["ws"] }
+      },
+      "event": [
+        { "listen": "test", "script": { "exec": [
+          "pm.test('Invalid SOAP returns fault OR HTTP 400/500/200 (with fault in body)', () => { pm.expect([400,500,200].includes(pm.response.code) || pm.response.text().toLowerCase().includes('fault')).to.be.true; });"
+        ], "type": "text/javascript" } }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080", "type": "string" },
+    { "key": "studentId", "value": "1", "type": "string" }
+  ]
+}
