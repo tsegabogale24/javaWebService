@@ -1,5 +1,5 @@
 package org.example.webservice.soap;
-
+hagbdga
 import org.example.webservice.model.Student;
 import org.example.webservice.service.StudentService;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
