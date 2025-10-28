@@ -7,10 +7,10 @@ Simple Spring Boot project demonstrating REST and SOAP student services.
 
 
 - Build & run  
-  mvn clean package  
+  mvn clean package 
   mvn spring-boot:run  
   App default URL: http://localhost:8080
 
-
+GDD
 - License  
   JU @EagleAgile Team
