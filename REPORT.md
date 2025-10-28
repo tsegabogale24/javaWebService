@@ -464,6 +464,7 @@ WSDL: Accessible at http://localhost:8080/ws/students.wsdl and contains operatio
 
 - Contract-first (XSD first) worked as planned: JAXB code generation reduced manual mapping errors.
 - Spring-WS is straightforward for mapping payloads when XSDs are simple.
+- Java Web Service Development: Learned how to build SOAP APIs with Spring-WS
 - It is useful to keep REST and SOAP services separate in packages for clarity.
 - Using Postman and curl made it easy to validate both JSON and XML-based endpoints.
 - When designing tests, keep them tolerant of reasonable implementation differences (status code variants & XML namespaces) while asserting the core contract.
